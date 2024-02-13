@@ -1,0 +1,108 @@
+.EmployeePageContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+}
+
+.EmployeePageTitle {
+  font-size: 1.5rem;
+}
+
+.EmployeePageContent {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+  width: 60%;
+}
+
+.EmployeeSearchContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.EmployeeSearch input {
+  margin-left: 5px;
+}
+
+.EmployeeListTable {
+  width: 100%;
+  margin-top: 10px;
+  border-collapse: collapse;
+}
+
+.EmployeeListTable th {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+  background-color: #f2f2f2;
+}
+
+.EmployeeListTable td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+.EmployeeListTable tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.EmployeeListTable tr:hover {
+  background-color: #ddd;
+}
+
+.EmployeePageNav {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: 10px;
+}
+
+.EmployeePageNavButtons {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.EmployeePageNavButtons button {
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  background-color: #f2f2f2;
+  cursor: pointer;
+}
+
+.EmployeePageNavButtons button:hover {
+  background-color: #ddd;
+  cursor: pointer;
+}
+
+.EmployeePageNavButtons button:first-child {
+  margin-left: 0;
+  background: transparent;
+  border: none;
+}
+
+.EmployeePageNavButtons button:last-child {
+  margin-right: 0;
+  background: transparent;
+  border: none;
+}
+
+.EmployeePageBack {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}

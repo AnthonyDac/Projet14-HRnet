@@ -1,0 +1,46 @@
+.topNavigationContainer {
+    margin: 30px auto;
+    width: 80%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.topNavigationLogo img {
+    max-width: 210px;
+}
+
+.topNavigationMenu {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 70px;
+    font-size: 24px;
+    font-family: 'Montserrat';
+}
+
+.topNavigationMenu a {
+    color: #FF6060;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.topNavigationMenu a.active {
+    border-bottom: 2px solid #FF6060;
+}
+
+@media (max-width: 426px) {
+    .topNavigationContainer {
+        width: 90%;
+    }
+    .topNavigationLogo img {
+        max-width: 120px;
+    }
+    .topNavigationMenu {
+        gap: 30px;
+        font-size: 16px;
+    }
+    .topNavigationMenu a {
+        text-transform: uppercase;
+    }
+  }
