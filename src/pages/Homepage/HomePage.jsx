@@ -1,11 +1,45 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './HomePage.css';
 import { Link } from 'react-router-dom';
 
 class HomePage extends React.Component {
-  componentDidMount() {
-
+  constructor() {
+    super();
+    this.state = {
+      states: [],
+      departments: [],
+      selectedDate: '',
+    };
   }
+
+  componentDidMount() {
+    fetch('/src/data/states.json')
+      .then((response) => response.json())
+      .then((data) => {
+        this.setState({ states: data });
+      })
+      .catch((error) => {
+        console.error('Erreur lors de la récupération des données :', error);
+      });
+
+    fetch('/src/data/departments.json')
+      .then((response) => response.json())
+      .then((data) => {
+        this.setState({ departments: data });
+      })
+      .catch((error) => {
+        console.error('Erreur lors de la récupération des données :', error);
+      });
+  }
+
+  // Fonction pour formater la date actuelle au format ISO (YYYY-MM-DD)
+  getCurrentDate = () => {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = (today.getMonth() + 1).toString().padStart(2, '0');
+    const day = today.getDate().toString().padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  };
 
   render() {
 
@@ -29,7 +63,9 @@ class HomePage extends React.Component {
               </label>
               <label>
                 Date of Birth
-                <input type="date" name="dob" />
+                <input type="date" name="dob" value={this.state.selectedDate}
+                  onChange={(e) => this.setState({ selectedDate: e.target.value })}
+                  max={this.getCurrentDate()} />
               </label>
               <label>
                 Start Date
@@ -47,7 +83,13 @@ class HomePage extends React.Component {
                 </label>
                 <label>
                   State
-                  <input type="text" name="state" />
+                  <select name='state' id="state">
+                    {this.state.states.map((state) => (
+                      <option key={state.abbreviation} value={state.abbreviation}>
+                        {state.name}
+                      </option>
+                    ))}
+                  </select>
                 </label>
                 <label>
                   Zip Code
@@ -57,11 +99,11 @@ class HomePage extends React.Component {
               <label>
                 Department
                 <select name='department' id="department">
-                  <option value="Sales">Sales</option>
-                  <option value="Marketing">Marketing</option>
-                  <option value="Engineering">Engineering</option>
-                  <option value="Human Resources">Human Resources</option>
-                  <option value="Legal">Legal</option>
+                  {this.state.departments.map((department) => (
+                    <option key={department.id} value={department.id}>
+                      {department.name}
+                    </option>
+                  ))}
                 </select>
               </label>
               <input type="submit" value="Save" />
