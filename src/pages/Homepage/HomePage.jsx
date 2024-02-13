@@ -6,9 +6,10 @@ class HomePage extends React.Component {
   constructor() {
     super();
     this.state = {
-      states: [],
-      departments: [],
+      states: ['Unknown'],
+      departments: ['Unknown'],
       selectedDate: '',
+      showingModal: false,
     };
   }
 
@@ -44,73 +45,85 @@ class HomePage extends React.Component {
   render() {
 
     return (
-      <div className='HomePageContainer'>
-        <div className="HomePageTitle">
-          <h1>HRnet</h1>
-        </div>
-        <div className="HomePageContent">
-          <Link to="/employee">View Current Employees</Link>
-          <h2>Create Employee</h2>
-          <div className='createEmployee'>
-            <form id="create-employee">
-              <label>
-                First Name
-                <input type="text" name="firstName" />
-              </label>
-              <label>
-                Last Name
-                <input type="text" name="lastName" />
-              </label>
-              <label>
-                Date of Birth
-                <input type="date" name="dob" value={this.state.selectedDate}
-                  onChange={(e) => this.setState({ selectedDate: e.target.value })}
-                  max={this.getCurrentDate()} />
-              </label>
-              <label>
-                Start Date
-                <input type="date" name="startDate" />
-              </label>
-              <fieldset>
-                <legend>Address</legend>
+      <>
+        {(this.state.showingModal) ? (
+          <div className="modal">
+            <div className="modal-content">
+              <p>Employee Created!</p>
+              <span className="close" onClick={() => this.setState({ showingModal: false })}>
+                &times;
+              </span>
+            </div>
+          </div>
+        ) : null}
+        <div className='HomePageContainer'>
+          <div className="HomePageTitle">
+            <h1>HRnet</h1>
+          </div>
+          <div className="HomePageContent">
+            <Link to="/employee">View Current Employees</Link>
+            <h2>Create Employee</h2>
+            <div className='createEmployee'>
+              <form id="create-employee">
                 <label>
-                  Street
-                  <input type="text" name="street" />
+                  First Name
+                  <input type="text" name="firstName" />
                 </label>
                 <label>
-                  City
-                  <input type="text" name="city" />
+                  Last Name
+                  <input type="text" name="lastName" />
                 </label>
                 <label>
-                  State
-                  <select name='state' id="state">
-                    {this.state.states.map((state) => (
-                      <option key={state.abbreviation} value={state.abbreviation}>
-                        {state.name}
+                  Date of Birth
+                  <input type="date" name="dob" value={this.state.selectedDate}
+                    onChange={(e) => this.setState({ selectedDate: e.target.value })}
+                    max={this.getCurrentDate()} />
+                </label>
+                <label>
+                  Start Date
+                  <input type="date" name="startDate" />
+                </label>
+                <fieldset>
+                  <legend>Address</legend>
+                  <label>
+                    Street
+                    <input type="text" name="street" />
+                  </label>
+                  <label>
+                    City
+                    <input type="text" name="city" />
+                  </label>
+                  <label>
+                    State
+                    <select name='state' id="state">
+                      {this.state.states.map((state) => (
+                        <option key={state.abbreviation} value={state.abbreviation}>
+                          {state.name}
+                        </option>
+                      ))}
+                    </select>
+                  </label>
+                  <label>
+                    Zip Code
+                    <input type="number" name="zip" min="1" />
+                  </label>
+                </fieldset>
+                <label>
+                  Department
+                  <select name='department' id="department">
+                    {this.state.departments.map((department) => (
+                      <option key={department.abbreviation} value={department.abbreviation}>
+                        {department.name}
                       </option>
                     ))}
                   </select>
                 </label>
-                <label>
-                  Zip Code
-                  <input type="number" name="zip" />
-                </label>
-              </fieldset>
-              <label>
-                Department
-                <select name='department' id="department">
-                  {this.state.departments.map((department) => (
-                    <option key={department.id} value={department.id}>
-                      {department.name}
-                    </option>
-                  ))}
-                </select>
-              </label>
-              <input type="submit" value="Save" />
-            </form>
+                <input type="submit" value="Save" />
+              </form>
+            </div>
           </div>
         </div>
-      </div>
+      </>
     );
   }
 }
