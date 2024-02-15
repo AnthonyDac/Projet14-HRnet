@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import './HomePage.css';
 import { Link } from 'react-router-dom';
 import SelectField from '../../components/Selectors/Selector';
+import Modal from '../../components/Modal/Modal';
 
 class HomePage extends React.Component {
   constructor() {
@@ -89,16 +90,12 @@ class HomePage extends React.Component {
 
     return (
       <>
-        {(this.state.showingModal) ? (
-          <div className="modal">
-            <div className="modal-content">
-              <p>Employee Created!</p>
-              <span className="close" onClick={() => this.setState({ showingModal: false })}>
-                &times;
-              </span>
-            </div>
-          </div>
-        ) : null}
+        {this.state.showingModal && (
+          <Modal
+            message="Employee Created!"
+            onClose={() => this.setState({ showingModal: false })}
+          />
+        )}
         <div className='HomePageContainer'>
           <div className="HomePageTitle">
             <h1>HRnet</h1>
