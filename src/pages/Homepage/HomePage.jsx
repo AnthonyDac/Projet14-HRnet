@@ -42,6 +42,33 @@ class HomePage extends React.Component {
     return `${year}-${month}-${day}`;
   };
 
+  // Fonction pour gérer la soumission du formulaire
+  handleSubmit = (event) => {
+    event.preventDefault();
+
+    // Récupérer les valeurs du formulaire
+    const formData = new FormData(event.target);
+    const employeeData = {};
+    formData.forEach((value, key) => {
+      employeeData[key] = value;
+    });
+
+    // Stocker les données dans le localStorage
+    const actualLocalStorage = JSON.parse(localStorage.getItem('employees'));
+    if (actualLocalStorage) {
+      actualLocalStorage.push(employeeData);
+      localStorage.setItem('employees', JSON.stringify(actualLocalStorage));
+    } else {
+      localStorage.setItem('employees', JSON.stringify([employeeData]));
+    }
+
+    // Afficher la fenêtre modale
+    this.setState({ showingModal: true });
+    setTimeout(() => {
+      this.setState({ showingModal: false });
+    }, 3000);
+  };
+
   render() {
 
     return (
@@ -64,7 +91,7 @@ class HomePage extends React.Component {
             <Link to="/employee">View Current Employees</Link>
             <h2>Create Employee</h2>
             <div className='createEmployee'>
-              <form id="create-employee">
+              <form id="create-employee" onSubmit={this.handleSubmit}>
                 <label>
                   First Name
                   <input type="text" name="firstName" />
@@ -112,7 +139,7 @@ class HomePage extends React.Component {
                   Department
                   <select name='department' id="department">
                     {this.state.departments.map((department) => (
-                      <option key={department.abbreviation} value={department.abbreviation}>
+                      <option key={department.name} value={department.name}>
                         {department.name}
                       </option>
                     ))}

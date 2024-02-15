@@ -3,9 +3,7 @@ import './EmployeePage.css';
 import { Link } from 'react-router-dom';
 
 class EmployeePage extends React.Component {
-  componentDidMount() {
-
-  }
+  employees = JSON.parse(localStorage.getItem('employees')) || [];
 
   render() {
 
@@ -46,72 +44,20 @@ class EmployeePage extends React.Component {
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>John</td>
-                <td>Doe</td>
-                <td>01/01/2021</td>
-                <td>Sales</td>
-                <td>01/01/1990</td>
-                <td>1234 Elm St</td>
-                <td>Springfield</td>
-                <td>IL</td>
-                <td>62701</td>
-              </tr>
-              <tr>
-                <td>Jane</td>
-                <td>Doe</td>
-                <td>01/01/2021</td>
-                <td>Sales</td>
-                <td>01/01/1990</td>
-                <td>1234 Elm St</td>
-                <td>Springfield</td>
-                <td>IL</td>
-                <td>62701</td>
-              </tr>
-              <tr>
-                <td>John</td>
-                <td>Doe</td>
-                <td>01/01/2021</td>
-                <td>Sales</td>
-                <td>01/01/1990</td>
-                <td>1234 Elm St</td>
-                <td>Springfield</td>
-                <td>IL</td>
-                <td>62701</td>
-              </tr>
-              <tr>
-                <td>Jane</td>
-                <td>Doe</td>
-                <td>01/01/2021</td>
-                <td>Sales</td>
-                <td>01/01/1990</td>
-                <td>1234 Elm St</td>
-                <td>Springfield</td>
-                <td>IL</td>
-                <td>62701</td>
-              </tr>
-              <tr>
-                <td>John</td>
-                <td>Doe</td>
-                <td>01/01/2021</td>
-                <td>Sales</td>
-                <td>01/01/1990</td>
-                <td>1234 Elm St</td>
-                <td>Springfield</td>
-                <td>IL</td>
-                <td>62701</td>
-              </tr>
-              <tr>
-                <td>Jane</td>
-                <td>Doe</td>
-                <td>01/01/2021</td>
-                <td>Sales</td>
-                <td>01/01/1990</td>
-                <td>1234 Elm St</td>
-                <td>Springfield</td>
-                <td>IL</td>
-                <td>62701</td>
-              </tr>
+              {(this.employees ? this.employees.map((employee) => (
+                <tr key={employee.firstName + employee.dob}>
+                  <td>{employee.firstName}</td>
+                  <td>{employee.lastName}</td>
+                  <td>{employee.startDate}</td>
+                  <td>{employee.department}</td>
+                  <td>{employee.dob}</td>
+                  <td>{employee.street}</td>
+                  <td>{employee.city}</td>
+                  <td>{employee.state}</td>
+                  <td>{employee.zip}</td>
+                </tr>
+              )) : null)
+              }
             </tbody>
           </table>
           <div className='EmployeePageNav'>
