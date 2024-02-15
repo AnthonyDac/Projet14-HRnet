@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
 import './HomePage.css';
 import { Link } from 'react-router-dom';
-import SelectField from '../../components/Selectors/Selector';
+import SelectField from '../../components/Selector/Selector';
 import Modal from '../../components/Modal/Modal';
+import DatePicker from '../../components/DatePicker/DatePicker';
+import shortid from 'shortid';
+
 
 class HomePage extends React.Component {
   constructor() {
@@ -68,6 +71,7 @@ class HomePage extends React.Component {
       employeeData[key] = value;
     });
     employeeData.state = this.state.selectedState;
+    employeeData.id = shortid.generate();
     console.log(employeeData);
 
     // Stocker les données dans le localStorage
@@ -115,13 +119,20 @@ class HomePage extends React.Component {
                 </label>
                 <label>
                   Date of Birth
-                  <input type="date" name="dob" value={this.state.selectedDate}
+                  <DatePicker
+                    fieldName="dob"
+                    value={this.state.selectedDate}
                     onChange={(e) => this.setState({ selectedDate: e.target.value })}
-                    max={this.getCurrentDate()} />
+                    maxDate={this.getCurrentDate()}
+                  />
                 </label>
                 <label>
                   Start Date
-                  <input type="date" name="startDate" />
+                  <DatePicker
+                    fieldName="startDate"
+                    value={this.state.startDate}
+                    onChange={(e) => this.setState({ startDate: e.target.value })}
+                  />
                 </label>
                 <fieldset>
                   <legend>Address</legend>

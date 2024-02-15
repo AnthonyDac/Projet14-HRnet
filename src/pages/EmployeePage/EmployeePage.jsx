@@ -44,8 +44,8 @@ class EmployeePage extends React.Component {
               </tr>
             </thead>
             <tbody>
-              {(this.employees ? this.employees.map((employee) => (
-                <tr key={employee.firstName + employee.dob}>
+              {(this.employees != undefined ? this.employees.map((employee) => (
+                <tr key={employee.id}>
                   <td>{employee.firstName}</td>
                   <td>{employee.lastName}</td>
                   <td>{employee.startDate}</td>
@@ -56,7 +56,7 @@ class EmployeePage extends React.Component {
                   <td>{employee.state}</td>
                   <td>{employee.zip}</td>
                 </tr>
-              )) : null)
+              )) : <tr><td>No Employees</td></tr>)
               }
             </tbody>
           </table>
