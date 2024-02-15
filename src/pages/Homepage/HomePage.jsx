@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './HomePage.css';
 import { Link } from 'react-router-dom';
+import SelectField from '../../components/Selectors/Selector';
 
 class HomePage extends React.Component {
   constructor() {
@@ -10,14 +11,27 @@ class HomePage extends React.Component {
       departments: ['Unknown'],
       selectedDate: '',
       showingModal: false,
+      selectedState: 'Unknown',
     };
   }
+  // Fonction pour gérer les changements de valeur dans les champs <select>
+  handleSelectChange = (name, value) => {
+    if (name === 'state') {
+      //Récupérer l'abbréviation de l'état
+      const state = this.state.states.find((state) => state.name === value);
+      this.setState({ selectedState: state.abbreviation });
+      this.setState({ [name]: value })
+    } else if (name === 'department') {
+      this.setState({ [name]: value });
+    }
+  };
 
   componentDidMount() {
     fetch('/src/data/states.json')
       .then((response) => response.json())
       .then((data) => {
         this.setState({ states: data });
+        this.setState({ selectedState: data[0].abbreviation });
       })
       .catch((error) => {
         console.error('Erreur lors de la récupération des données :', error);
@@ -52,6 +66,8 @@ class HomePage extends React.Component {
     formData.forEach((value, key) => {
       employeeData[key] = value;
     });
+    employeeData.state = this.state.selectedState;
+    console.log(employeeData);
 
     // Stocker les données dans le localStorage
     const actualLocalStorage = JSON.parse(localStorage.getItem('employees'));
@@ -122,13 +138,12 @@ class HomePage extends React.Component {
                   </label>
                   <label>
                     State
-                    <select name='state' id="state">
-                      {this.state.states.map((state) => (
-                        <option key={state.abbreviation} value={state.abbreviation}>
-                          {state.name}
-                        </option>
-                      ))}
-                    </select>
+                    <SelectField
+                      name="state"
+                      options={this.state.states.map((state) => state.name)}
+                      value={this.state.state}
+                      onChange={(e) => this.handleSelectChange('state', e.target.value)}
+                    />
                   </label>
                   <label>
                     Zip Code
@@ -137,13 +152,12 @@ class HomePage extends React.Component {
                 </fieldset>
                 <label>
                   Department
-                  <select name='department' id="department">
-                    {this.state.departments.map((department) => (
-                      <option key={department.name} value={department.name}>
-                        {department.name}
-                      </option>
-                    ))}
-                  </select>
+                  <SelectField
+                    name="department"
+                    options={this.state.departments.map((department) => department.name)}
+                    value={this.state.department}
+                    onChange={(e) => this.handleSelectChange('department', e.target.value)}
+                  />
                 </label>
                 <input type="submit" value="Save" />
               </form>

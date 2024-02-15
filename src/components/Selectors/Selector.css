@@ -1,0 +1,16 @@
+.createEmployee form select {
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  width: 250px;
+  cursor: pointer;
+  background: rgb(236, 236, 236);
+}
+
+.createEmployee form select option {
+  font-weight: normal;
+  display: block;
+  min-height: 1.2em;
+  padding: 0px 2px 1px;
+  white-space: nowrap;
+}
