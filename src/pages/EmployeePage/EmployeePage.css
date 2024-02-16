@@ -15,46 +15,31 @@
   display: flex;
   flex-direction: column;
   margin-bottom: 1rem;
-  width: 60%;
+  width: 70%;
+}
+
+.EmployeePageContent a {
+  margin-top: 15px;
 }
 
 .EmployeeSearchContainer {
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: space-between;
+  justify-content: end;
   width: 100%;
+  padding: 10px 0;
+}
+
+.EmployeeSearch {
 }
 
 .EmployeeSearch input {
   margin-left: 5px;
 }
 
-.EmployeeListTable {
+.grid-container {
   width: 100%;
-  margin-top: 10px;
-  border-collapse: collapse;
-}
-
-.EmployeeListTable th {
-  border: 1px solid #ddd;
-  padding: 8px;
-  text-align: left;
-  background-color: #f2f2f2;
-}
-
-.EmployeeListTable td {
-  border: 1px solid #ddd;
-  padding: 8px;
-  text-align: left;
-}
-
-.EmployeeListTable tr:nth-child(even) {
-  background-color: #f2f2f2;
-}
-
-.EmployeeListTable tr:hover {
-  background-color: #ddd;
 }
 
 .EmployeePageNav {

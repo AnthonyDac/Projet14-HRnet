@@ -1,6 +1,7 @@
 import React from 'react';
+import './DatePicker.css';
 
-class CustomDatePicker extends React.Component {
+class DatePicker extends React.Component {
     render() {
         const { fieldName, value, onChange, maxDate } = this.props;
 
@@ -16,4 +17,4 @@ class CustomDatePicker extends React.Component {
     }
 }
 
-export default CustomDatePicker;
+export default DatePicker;

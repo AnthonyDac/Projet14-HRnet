@@ -72,7 +72,24 @@ class HomePage extends React.Component {
     });
     employeeData.state = this.state.selectedState;
     employeeData.id = shortid.generate();
-    console.log(employeeData);
+
+    for (let i = 0; i < 250; i++) {
+      //Faire 250 copies de l'employé
+      const employeeData = {};
+      formData.forEach((value, key) => {
+        employeeData[key] = value;
+      });
+      employeeData.state = this.state.selectedState;
+      employeeData.id = shortid.generate();
+      const actualLocalStorage = JSON.parse(localStorage.getItem('employees'));
+      if (actualLocalStorage) {
+        actualLocalStorage.push(employeeData);
+        localStorage.setItem('employees', JSON.stringify(actualLocalStorage));
+      } else {
+        localStorage.setItem('employees', JSON.stringify([employeeData]));
+      }
+
+    }
 
     // Stocker les données dans le localStorage
     const actualLocalStorage = JSON.parse(localStorage.getItem('employees'));

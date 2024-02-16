@@ -1,0 +1,7 @@
+.ag-body-horizontal-scroll {
+  display: none !important;
+}
+
+.ag-grid-container {
+  max-height: 70vh !important;
+}

@@ -1,0 +1,66 @@
+input[type="date"] {
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  width: 250px;
+  cursor: pointer;
+}
+
+/* Style du conteneur principal du datepicker */
+.react-datepicker {
+  font-family: Arial, sans-serif;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Style du conteneur du calendrier (popper) */
+.react-datepicker-popper {
+  z-index: 1000; /* Ajustez le z-index selon vos besoins */
+}
+
+/* Style de l'élément input du datepicker */
+.react-datepicker__input-container input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+/* Style de la flèche du calendrier */
+.react-datepicker__navigation {
+  top: 10px;
+}
+
+/* Style du bouton "Aujourd'hui" dans le calendrier */
+.react-datepicker__today-button {
+  background-color: #3498db !important;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 8px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+/* Style des jours dans le calendrier */
+.react-datepicker__day {
+  font-size: 14px;
+}
+
+/* Style du jour sélectionné dans le calendrier */
+.react-datepicker__day--selected {
+  background-color: #3498db;
+  color: #fff;
+}
+
+/* Style du jour actuel dans le calendrier */
+.react-datepicker__day--today {
+  font-weight: bold;
+}
+
+/* Style des jours désactivés dans le calendrier */
+.react-datepicker__day--disabled {
+  color: #ccc;
+  cursor: not-allowed;
+}

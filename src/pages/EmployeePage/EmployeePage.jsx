@@ -1,12 +1,24 @@
-import React from 'react';
-import './EmployeePage.css';
+import React, { Component } from 'react';
+import EmployeeTable from '../../components/Table/Table';
 import { Link } from 'react-router-dom';
+import './EmployeePage.css';
 
-class EmployeePage extends React.Component {
+class EmployeePage extends Component {
   employees = JSON.parse(localStorage.getItem('employees')) || [];
 
-  render() {
+  columnDefs = [
+    { headerName: 'First Name', field: 'firstName' },
+    { headerName: 'Last Name', field: 'lastName' },
+    { headerName: 'Start Date', field: 'startDate' },
+    { headerName: 'Department', field: 'department' },
+    { headerName: 'Date Of Birth', field: 'dob' },
+    { headerName: 'Street', field: 'street' },
+    { headerName: 'City', field: 'city' },
+    { headerName: 'State', field: 'state' },
+    { headerName: 'Zip Code', field: 'zip' },
+  ];
 
+  render() {
     return (
       <div className='EmployeePageContainer'>
         <div className="EmployeePageTitle">
@@ -14,14 +26,6 @@ class EmployeePage extends React.Component {
         </div>
         <div className="EmployeePageContent">
           <div className='EmployeeSearchContainer'>
-            <div className='EmployeeSort'>
-              Show <select name="show" id="show">
-                <option value="10">10</option>
-                <option value="25">25</option>
-                <option value="50">50</option>
-                <option value="100">100</option>
-              </select> entries
-            </div>
             <div className='EmployeeSearch'>
               <label>
                 Search:
@@ -29,46 +33,8 @@ class EmployeePage extends React.Component {
               </label>
             </div>
           </div>
-          <table className='EmployeeListTable'>
-            <thead>
-              <tr>
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>Start Date</th>
-                <th>Department</th>
-                <th>Date Of Birth</th>
-                <th>Street</th>
-                <th>City</th>
-                <th>State</th>
-                <th>Zip Code</th>
-              </tr>
-            </thead>
-            <tbody>
-              {(this.employees != undefined ? this.employees.map((employee) => (
-                <tr key={employee.id}>
-                  <td>{employee.firstName}</td>
-                  <td>{employee.lastName}</td>
-                  <td>{employee.startDate}</td>
-                  <td>{employee.department}</td>
-                  <td>{employee.dob}</td>
-                  <td>{employee.street}</td>
-                  <td>{employee.city}</td>
-                  <td>{employee.state}</td>
-                  <td>{employee.zip}</td>
-                </tr>
-              )) : <tr><td>No Employees</td></tr>)
-              }
-            </tbody>
-          </table>
-          <div className='EmployeePageNav'>
-            <p>Showing 1 to 10 of 100 entries</p>
-            <div className='EmployeePageNavButtons'>
-              <button>Previous</button>
-              <button>1</button>
-              <button>2</button>
-              <button>3</button>
-              <button>Next</button>
-            </div>
+          <div className="grid-container">
+            <EmployeeTable columnDefs={this.columnDefs} rowData={this.employees} />
           </div>
           <Link to='/' className='EmployeePageBack'>Home</Link>
         </div>

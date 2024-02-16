@@ -49,7 +49,8 @@
   width: 250px;
 }
 
-.createEmployee form input {
+.createEmployee form input[type="text"],
+input[type="number"] {
   padding: 5px;
   border-radius: 5px;
   border: 1px solid #ccc;
@@ -57,9 +58,5 @@
 }
 
 .createEmployee form input[type="submit"] {
-  cursor: pointer;
-}
-
-.createEmployee form input[type="date"] {
   cursor: pointer;
 }
