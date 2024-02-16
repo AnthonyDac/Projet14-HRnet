@@ -15,3 +15,8 @@
   padding: 0px 2px 1px;
   white-space: nowrap;
 }
+
+.createEmployee form select:focus {
+  outline: none;
+  border: 1px solid #121212;
+}

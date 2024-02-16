@@ -14,7 +14,7 @@ class Table extends Component {
         this.state = {
             suppressHorizontalScroll: false,
             pagination: true,
-            paginationPageSize: 10,
+            paginationPageSize: 25,
             paginationPageSizeSelector: [10, 25, 50, 100],
             //domLayout: 'autoHeight',
             defaultColDef: {

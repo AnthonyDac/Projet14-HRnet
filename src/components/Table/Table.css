@@ -5,3 +5,20 @@
 .ag-grid-container {
   max-height: 70vh !important;
 }
+
+.ag-header-cell-text {
+  color: #fff !important;
+  font-size: 15px !important;
+}
+
+.ag-cell-normal-height {
+  color: #fff !important;
+  font-size: 15px !important;
+}
+
+.ag-theme-alpine-dark {
+  --ag-background-color: #282828 !important;
+  --ag-odd-row-background-color: #313131 !important;
+  --ag-header-background-color: #282828 !important;
+  --ag-border-color: transparent !important;
+}

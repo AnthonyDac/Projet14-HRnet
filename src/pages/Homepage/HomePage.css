@@ -118,10 +118,12 @@ input[type="number"] {
   border-radius: 5px;
   background: #575757;
   color: white;
+  transition-duration: 0.4s;
 }
 
 .createEmployee form input[type="submit"]:hover {
   background: #3f3f3f;
+  transition-duration: 0.4s;
 }
 
 .createEmployee form input:focus {
