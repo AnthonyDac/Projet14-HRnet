@@ -179,7 +179,7 @@
 .timer-bar-fill {
   width: 0;
   height: 100%;
-  background: rgb(255, 214, 255);
+  background: #ffd6ff;
   background: linear-gradient(
     90deg,
     rgba(255, 214, 255, 1) 0%,

@@ -122,7 +122,7 @@ class HomePage extends React.Component {
       <>
         <Modal title="Employee Created!" commentary='👍 Your employee has been created successfully.'
           position='center' show={this.state.showingModal} autoCloseTime={5000} showLoadingBar={true} showCloseButton={false}
-          backgroundColor="" onClose={this.closeModal} />
+          fillColor="" onClose={this.closeModal} />
         <div className='HomePageContainer'>
           <div className="HomePageTitle">
             <h1>HRnet</h1>

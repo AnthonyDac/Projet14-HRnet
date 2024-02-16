@@ -57,7 +57,7 @@ const Modal = (props) => {
                         ) : null}
                         {props.autoCloseTime && props.showLoadingBar ? (
                             <div className='timer-bar'>
-                                <div className='timer-bar-fill' style={{ width: timerWidth, background: props.backgroundColor || null }}></div>
+                                <div className='timer-bar-fill' style={{ width: timerWidth, background: props.fillColor || '#ffd6ff' }}></div>
                             </div>
                         ) : null}
                     </div>
