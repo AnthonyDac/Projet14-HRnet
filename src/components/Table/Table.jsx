@@ -5,6 +5,7 @@ import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
 import 'ag-grid-community/styles/ag-theme-material.css';
 import 'ag-grid-community/styles/ag-theme-quartz.css';
+import 'ag-grid-community/styles/ag-theme-balham.css';
 
 class Table extends Component {
     constructor(props) {
@@ -34,7 +35,7 @@ class Table extends Component {
         const { columnDefs, rowData } = this.props;
 
         return (
-            <div className="ag-theme-alpine ag-grid-container" style={{ width: '100%', height: '850px' }}>
+            <div className="ag-theme-alpine-dark ag-grid-container" style={{ width: '100%', height: '850px' }}>
                 <AgGridReact
                     columnDefs={columnDefs}
                     rowData={rowData}

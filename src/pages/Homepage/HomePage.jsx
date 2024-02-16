@@ -73,6 +73,14 @@ class HomePage extends React.Component {
     employeeData.state = this.state.selectedState;
     employeeData.id = shortid.generate();
 
+    if (employeeData.firstName == '') return;
+    if (employeeData.lastName == '') return;
+    if (employeeData.dob == '') return;
+    if (employeeData.startDate == '') return;
+    if (employeeData.street == '') return;
+    if (employeeData.city == '') return;
+    if (employeeData.zip == '') return;
+
     for (let i = 0; i < 250; i++) {
       //Faire 250 copies de l'employé
       const employeeData = {};
@@ -123,8 +131,8 @@ class HomePage extends React.Component {
           </div>
           <div className="HomePageContent">
             <Link to="/employee">View Current Employees</Link>
-            <h2>Create Employee</h2>
             <div className='createEmployee'>
+              <h2>Create Employee</h2>
               <form id="create-employee" onSubmit={this.handleSubmit}>
                 <label>
                   First Name

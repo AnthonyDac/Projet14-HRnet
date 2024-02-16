@@ -3,12 +3,22 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100%;
+  min-height: 100vh;
   width: 100%;
+  background: #121212;
 }
 
 .EmployeePageTitle {
   font-size: 1.5rem;
+}
+
+.EmployeePageTitle h1 {
+  margin-top: 20px;
+  font-weight: bold;
+  color: #8b8b8b;
+  text-align: center;
+  margin-bottom: 1rem;
+  font-family: "Raleway";
 }
 
 .EmployeePageContent {
@@ -19,7 +29,17 @@
 }
 
 .EmployeePageContent a {
-  margin-top: 15px;
+  margin: 15px auto;
+  background: white;
+  padding: 10px 20px;
+  border-radius: 25px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+  text-decoration: none;
+  color: #000;
+  font-weight: bold;
+  cursor: pointer;
+  font-family: "Montserrat";
+  max-width: 250px;
 }
 
 .EmployeeSearchContainer {
@@ -31,11 +51,22 @@
   padding: 10px 0;
 }
 
-.EmployeeSearch {
+.EmployeeSearch label {
+  color: white;
+  font-weight: bold;
+  font-family: "Raleway";
+  letter-spacing: 1px;
 }
 
 .EmployeeSearch input {
   margin-left: 5px;
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid #383838;
+  font-family: "Roboto";
+  font-size: 14px;
+  background: #585858;
+  color: white;
 }
 
 .grid-container {
