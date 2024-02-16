@@ -14,7 +14,7 @@ class HomePage extends React.Component {
       states: ['Unknown'],
       departments: ['Unknown'],
       selectedDate: '',
-      showingModal: false,
+      showingModal: true,
       selectedState: 'Unknown',
     };
   }
@@ -119,12 +119,10 @@ class HomePage extends React.Component {
 
     return (
       <>
-        {this.state.showingModal && (
-          <Modal
-            message="Employee Created!"
-            onClose={() => this.setState({ showingModal: false })}
-          />
-        )}
+        <Modal
+          title="Employee Created!" commentary='👍 Your employee has been created successfully.' show={this.state.showingModal} autoCloseTime={3500} showLoadingBar={false}
+          onClose={() => this.setState({ showingModal: false })}
+        />
         <div className='HomePageContainer'>
           <div className="HomePageTitle">
             <h1>HRnet</h1>
