@@ -14,10 +14,15 @@ class HomePage extends React.Component {
       states: ['Unknown'],
       departments: ['Unknown'],
       selectedDate: '',
-      showingModal: true,
       selectedState: 'Unknown',
+      showingModal: false,
     };
   }
+
+  closeModal = () => {
+    this.setState({ showingModal: false });
+  };
+
   // Fonction pour gérer les changements de valeur dans les champs <select>
   handleSelectChange = (name, value) => {
     if (name === 'state') {
@@ -68,8 +73,10 @@ class HomePage extends React.Component {
     const formData = new FormData(event.target);
     const employeeData = {};
     formData.forEach((value, key) => {
+      console.log(value)
       employeeData[key] = value;
     });
+
     employeeData.state = this.state.selectedState;
     employeeData.id = shortid.generate();
 
@@ -81,7 +88,7 @@ class HomePage extends React.Component {
     if (employeeData.city == '') return;
     if (employeeData.zip == '') return;
 
-    for (let i = 0; i < 250; i++) {
+    /*for (let i = 0; i < 250; i++) {
       //Faire 250 copies de l'employé
       const employeeData = {};
       formData.forEach((value, key) => {
@@ -96,8 +103,7 @@ class HomePage extends React.Component {
       } else {
         localStorage.setItem('employees', JSON.stringify([employeeData]));
       }
-
-    }
+    }*/
 
     // Stocker les données dans le localStorage
     const actualLocalStorage = JSON.parse(localStorage.getItem('employees'));
@@ -108,21 +114,15 @@ class HomePage extends React.Component {
       localStorage.setItem('employees', JSON.stringify([employeeData]));
     }
 
-    // Afficher la fenêtre modale
     this.setState({ showingModal: true });
-    setTimeout(() => {
-      this.setState({ showingModal: false });
-    }, 3000);
   };
 
   render() {
-
     return (
       <>
-        <Modal
-          title="Employee Created!" commentary='👍 Your employee has been created successfully.' show={this.state.showingModal} autoCloseTime={3500} showLoadingBar={false}
-          onClose={() => this.setState({ showingModal: false })}
-        />
+        <Modal title="Employee Created!" commentary='👍 Your employee has been created successfully.'
+          position='center' show={this.state.showingModal} autoCloseTime={5000} showLoadingBar={true} showCloseButton={false}
+          backgroundColor="" onClose={this.closeModal} />
         <div className='HomePageContainer'>
           <div className="HomePageTitle">
             <h1>HRnet</h1>
@@ -153,7 +153,7 @@ class HomePage extends React.Component {
                   Start Date
                   <DatePicker
                     fieldName="startDate"
-                    value={this.state.startDate}
+                    value={this.state.startDate} format="DD-MM-YYYY"
                     onChange={(e) => this.setState({ startDate: e.target.value })}
                   />
                 </label>
