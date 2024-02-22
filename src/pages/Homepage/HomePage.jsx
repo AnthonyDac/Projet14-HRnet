@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './HomePage.css';
 import { Link } from 'react-router-dom';
 import SelectField from '../../components/Selector/Selector';
-import Modal from '../../components/Modal/Modal';
+import Modalia from 'modalia'; // Vérifiez si le chemin est correct
 import DatePicker from '../../components/DatePicker/DatePicker';
 import shortid from 'shortid';
 
@@ -15,7 +15,7 @@ class HomePage extends React.Component {
       departments: ['Unknown'],
       selectedDate: '',
       selectedState: 'Unknown',
-      showingModal: false,
+      showingModal: true,
     };
   }
 
@@ -36,6 +36,10 @@ class HomePage extends React.Component {
   };
 
   componentDidMount() {
+    window.addEventListener('modalClose', () => {
+      this.closeModal();
+    });
+
     fetch('/src/data/states.json')
       .then((response) => response.json())
       .then((data) => {
@@ -73,7 +77,6 @@ class HomePage extends React.Component {
     const formData = new FormData(event.target);
     const employeeData = {};
     formData.forEach((value, key) => {
-      console.log(value)
       employeeData[key] = value;
     });
 
@@ -117,12 +120,14 @@ class HomePage extends React.Component {
     this.setState({ showingModal: true });
   };
 
+  componentWillUnmount() {
+    window.removeEventListener('modalClose', this.closeModal);
+  }
+
   render() {
     return (
       <>
-        <Modal title="Employee Created!" commentary='👍 Your employee has been created successfully.'
-          position='center' show={this.state.showingModal} autoCloseTime={5000} showLoadingBar={true} showCloseButton={false}
-          fillColor="" onClose={this.closeModal} />
+        <Modalia title="Employee Created!" commentary='👍 Your employee has been created successfully.' position='center' backgroundColor="" titleColor="" commentaryColor="" show={this.state.showingModal} />
         <div className='HomePageContainer'>
           <div className="HomePageTitle">
             <h1>HRnet</h1>
