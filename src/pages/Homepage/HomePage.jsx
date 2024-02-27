@@ -1,67 +1,48 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './HomePage.css';
 import { Link } from 'react-router-dom';
 import SelectField from '../../components/Selector/Selector';
-import Modalia from 'modalia'; // Vérifiez si le chemin est correct
+import Modalia from 'modalia';
 import DatePicker from '../../components/DatePicker/DatePicker';
 import shortid from 'shortid';
 
+const HomePage = () => {
+  const [states, setStates] = useState(['Unknown']);
+  const [departments, setDepartments] = useState(['Unknown']);
+  const [selectedDate, setSelectedDate] = useState('');
+  const [selectedState, setSelectedState] = useState('Unknown');
+  const [showingModal, setShowingModal] = useState(false);
 
-class HomePage extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      states: ['Unknown'],
-      departments: ['Unknown'],
-      selectedDate: '',
-      selectedState: 'Unknown',
-      showingModal: true,
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const statesResponse = await fetch('/data/states.json');
+        const statesData = await statesResponse.json();
+        setStates(statesData);
+        setSelectedState(statesData[0].abbreviation);
+
+        const departmentsResponse = await fetch('/data/departments.json');
+        const departmentsData = await departmentsResponse.json();
+        setDepartments(departmentsData);
+      } catch (error) {
+        console.error('Erreur lors de la récupération des données :', error);
+      }
     };
-  }
 
-  closeModal = () => {
-    this.setState({ showingModal: false });
-  };
+    fetchData();
 
-  // Fonction pour gérer les changements de valeur dans les champs <select>
-  handleSelectChange = (name, value) => {
-    if (name === 'state') {
-      //Récupérer l'abbréviation de l'état
-      const state = this.state.states.find((state) => state.name === value);
-      this.setState({ selectedState: state.abbreviation });
-      this.setState({ [name]: value })
-    } else if (name === 'department') {
-      this.setState({ [name]: value });
-    }
-  };
+    const modalCloseHandler = () => {
+      setShowingModal(false);
+    };
 
-  componentDidMount() {
-    window.addEventListener('modalClose', () => {
-      this.closeModal();
-    });
+    window.addEventListener('modalClose', modalCloseHandler);
 
-    fetch('/src/data/states.json')
-      .then((response) => response.json())
-      .then((data) => {
-        this.setState({ states: data });
-        this.setState({ selectedState: data[0].abbreviation });
-      })
-      .catch((error) => {
-        console.error('Erreur lors de la récupération des données :', error);
-      });
+    return () => {
+      window.removeEventListener('modalClose', modalCloseHandler);
+    };
+  }, []);
 
-    fetch('/src/data/departments.json')
-      .then((response) => response.json())
-      .then((data) => {
-        this.setState({ departments: data });
-      })
-      .catch((error) => {
-        console.error('Erreur lors de la récupération des données :', error);
-      });
-  }
-
-  // Fonction pour formater la date actuelle au format ISO (YYYY-MM-DD)
-  getCurrentDate = () => {
+  const getCurrentDate = () => {
     const today = new Date();
     const year = today.getFullYear();
     const month = (today.getMonth() + 1).toString().padStart(2, '0');
@@ -69,140 +50,115 @@ class HomePage extends React.Component {
     return `${year}-${month}-${day}`;
   };
 
-  // Fonction pour gérer la soumission du formulaire
-  handleSubmit = (event) => {
+  const handleSelectChange = (name, value) => {
+    if (name === 'state') {
+      const state = states.find((state) => state.name === value);
+      setSelectedState(state.abbreviation);
+    }
+  };
+
+  const handleSubmit = (event) => {
     event.preventDefault();
 
-    // Récupérer les valeurs du formulaire
     const formData = new FormData(event.target);
     const employeeData = {};
+
     formData.forEach((value, key) => {
       employeeData[key] = value;
     });
 
-    employeeData.state = this.state.selectedState;
+    employeeData.state = selectedState;
     employeeData.id = shortid.generate();
 
-    if (employeeData.firstName == '') return;
-    if (employeeData.lastName == '') return;
-    if (employeeData.dob == '') return;
-    if (employeeData.startDate == '') return;
-    if (employeeData.street == '') return;
-    if (employeeData.city == '') return;
-    if (employeeData.zip == '') return;
-
-    /*for (let i = 0; i < 250; i++) {
-      //Faire 250 copies de l'employé
-      const employeeData = {};
-      formData.forEach((value, key) => {
-        employeeData[key] = value;
-      });
-      employeeData.state = this.state.selectedState;
-      employeeData.id = shortid.generate();
-      const actualLocalStorage = JSON.parse(localStorage.getItem('employees'));
-      if (actualLocalStorage) {
-        actualLocalStorage.push(employeeData);
-        localStorage.setItem('employees', JSON.stringify(actualLocalStorage));
-      } else {
-        localStorage.setItem('employees', JSON.stringify([employeeData]));
-      }
-    }*/
-
-    // Stocker les données dans le localStorage
-    const actualLocalStorage = JSON.parse(localStorage.getItem('employees'));
-    if (actualLocalStorage) {
-      actualLocalStorage.push(employeeData);
-      localStorage.setItem('employees', JSON.stringify(actualLocalStorage));
-    } else {
-      localStorage.setItem('employees', JSON.stringify([employeeData]));
+    if (Object.values(employeeData).some((field) => field === '')) {
+      return;
     }
 
-    this.setState({ showingModal: true });
+    const actualLocalStorage = JSON.parse(localStorage.getItem('employees')) || [];
+    actualLocalStorage.push(employeeData);
+    localStorage.setItem('employees', JSON.stringify(actualLocalStorage));
+
+    setShowingModal(true);
   };
 
-  componentWillUnmount() {
-    window.removeEventListener('modalClose', this.closeModal);
-  }
-
-  render() {
-    return (
-      <>
-        <Modalia title="Employee Created!" commentary='👍 Your employee has been created successfully.' position='center' backgroundColor="" titleColor="" commentaryColor="" show={this.state.showingModal} />
-        <div className='HomePageContainer'>
-          <div className="HomePageTitle">
-            <h1>HRnet</h1>
-          </div>
-          <div className="HomePageContent">
-            <Link to="/employee">View Current Employees</Link>
-            <div className='createEmployee'>
-              <h2>Create Employee</h2>
-              <form id="create-employee" onSubmit={this.handleSubmit}>
+  return (
+    <>
+      <Modalia title="Employee Created!" commentary='👍 Your employee has been created successfully.' position='corner-top-right' backgroundColor="" titleColor="" commentaryColor="" show={showingModal} />
+      <div className='HomePageContainer'>
+        <div className="HomePageTitle">
+          <h1>HRnet</h1>
+        </div>
+        <div className="HomePageContent">
+          <Link to="/employee">View Current Employees</Link>
+          <div className='createEmployee'>
+            <h2>Create Employee</h2>
+            <form id="create-employee" onSubmit={handleSubmit}>
+              <label>
+                First Name
+                <input type="text" name="firstName" />
+              </label>
+              <label>
+                Last Name
+                <input type="text" name="lastName" />
+              </label>
+              <label>
+                Date of Birth
+                <DatePicker
+                  fieldName="dob"
+                  value={selectedDate}
+                  onChange={(e) => setSelectedDate(e.target.value)}
+                  maxDate={getCurrentDate()}
+                />
+              </label>
+              <label>
+                Start Date
+                <DatePicker
+                  fieldName="startDate"
+                  value={selectedDate}
+                  format="DD-MM-YYYY"
+                  onChange={(e) => setSelectedDate(e.target.value)}
+                />
+              </label>
+              <fieldset>
+                <legend>Address</legend>
                 <label>
-                  First Name
-                  <input type="text" name="firstName" />
+                  Street
+                  <input type="text" name="street" />
                 </label>
                 <label>
-                  Last Name
-                  <input type="text" name="lastName" />
+                  City
+                  <input type="text" name="city" />
                 </label>
                 <label>
-                  Date of Birth
-                  <DatePicker
-                    fieldName="dob"
-                    value={this.state.selectedDate}
-                    onChange={(e) => this.setState({ selectedDate: e.target.value })}
-                    maxDate={this.getCurrentDate()}
-                  />
-                </label>
-                <label>
-                  Start Date
-                  <DatePicker
-                    fieldName="startDate"
-                    value={this.state.startDate} format="DD-MM-YYYY"
-                    onChange={(e) => this.setState({ startDate: e.target.value })}
-                  />
-                </label>
-                <fieldset>
-                  <legend>Address</legend>
-                  <label>
-                    Street
-                    <input type="text" name="street" />
-                  </label>
-                  <label>
-                    City
-                    <input type="text" name="city" />
-                  </label>
-                  <label>
-                    State
-                    <SelectField
-                      name="state"
-                      options={this.state.states.map((state) => state.name)}
-                      value={this.state.state}
-                      onChange={(e) => this.handleSelectChange('state', e.target.value)}
-                    />
-                  </label>
-                  <label>
-                    Zip Code
-                    <input type="number" name="zip" min="1" />
-                  </label>
-                </fieldset>
-                <label>
-                  Department
+                  State
                   <SelectField
-                    name="department"
-                    options={this.state.departments.map((department) => department.name)}
-                    value={this.state.department}
-                    onChange={(e) => this.handleSelectChange('department', e.target.value)}
+                    name="state"
+                    options={states.map((state) => state.name)}
+                    value={selectedState}
+                    onChange={(e) => handleSelectChange('state', e.target.value)}
                   />
                 </label>
-                <input type="submit" value="Save" />
-              </form>
-            </div>
+                <label>
+                  Zip Code
+                  <input type="number" name="zip" min="1" />
+                </label>
+              </fieldset>
+              <label>
+                Department
+                <SelectField
+                  name="department"
+                  options={departments.map((department) => department.name)}
+                  value={departments.department}
+                  onChange={(e) => handleSelectChange('department', e.target.value)}
+                />
+              </label>
+              <input type="submit" value="Save" />
+            </form>
           </div>
         </div>
-      </>
-    );
-  }
-}
+      </div>
+    </>
+  );
+};
 
 export default HomePage;
