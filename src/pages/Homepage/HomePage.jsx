@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import './HomePage.css';
 import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { getEmployees } from '../../store/selectors/selectors';
 import SelectField from '../../components/Selector/Selector';
 import Modalia from 'modalia';
 import DatePicker from '../../components/DatePicker/DatePicker';
 import shortid from 'shortid';
+import './HomePage.css';
 
 const HomePage = () => {
   const [states, setStates] = useState(['Unknown']);
@@ -12,6 +14,8 @@ const HomePage = () => {
   const [selectedDate, setSelectedDate] = useState('');
   const [selectedState, setSelectedState] = useState('Unknown');
   const [showingModal, setShowingModal] = useState(false);
+  const dispatch = useDispatch();
+  let employeesRedux = useSelector(getEmployees);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -74,9 +78,8 @@ const HomePage = () => {
       return;
     }
 
-    const actualLocalStorage = JSON.parse(localStorage.getItem('employees')) || [];
-    actualLocalStorage.push(employeeData);
-    localStorage.setItem('employees', JSON.stringify(actualLocalStorage));
+    const updatedEmployees = employeesRedux.length > 0 ? [...employeesRedux, employeeData] : [employeeData];
+    dispatch({ type: 'SET_EMPLOYEES', payload: updatedEmployees });
 
     setShowingModal(true);
   };

@@ -1,7 +1,7 @@
 import React from 'react';
 import './Selector.css';
 
-const SelectField = ({ options, name, value, onChange }) => (
+const Selector = ({ options, name, value, onChange }) => (
   <select name={name} id={name} value={value} onChange={onChange}>
     {options.map((option) => (
       <option key={option + value} value={option}>
@@ -11,4 +11,4 @@ const SelectField = ({ options, name, value, onChange }) => (
   </select>
 );
 
-export default SelectField;
+export default Selector;
