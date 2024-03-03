@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getEmployees } from '../../store/selectors/selectors';
-import SelectField from '../../components/Selector/Selector';
+import Selector from '../../components/Selector/Selector';
 import Modalia from 'modalia';
 import DatePicker from '../../components/DatePicker/DatePicker';
 import shortid from 'shortid';
@@ -11,8 +11,10 @@ import './HomePage.css';
 const HomePage = () => {
   const [states, setStates] = useState(['Unknown']);
   const [departments, setDepartments] = useState(['Unknown']);
-  const [selectedDate, setSelectedDate] = useState('');
-  const [selectedState, setSelectedState] = useState('Unknown');
+  const [selectedDob, setSelectedDob] = useState('');
+  const [selectedStartDate, setSelectedStartDate] = useState('');
+  const [selectedState, setSelectedState] = useState('');
+  const [selectedDepartment, setSelectedDepartment] = useState('');
   const [showingModal, setShowingModal] = useState(false);
   const dispatch = useDispatch();
   let employeesRedux = useSelector(getEmployees);
@@ -54,11 +56,14 @@ const HomePage = () => {
     return `${year}-${month}-${day}`;
   };
 
-  const handleSelectChange = (name, value) => {
-    if (name === 'state') {
-      const state = states.find((state) => state.name === value);
-      setSelectedState(state.abbreviation);
-    }
+  const handleStateChange = (event) => {
+    const selectedOption = event.target.value;
+    setSelectedState(selectedOption);
+  };
+
+  const handleDepartmentChange = (event) => {
+    const selectedOption = departments.find((department) => department.abbreviation === event.target.value);
+    setSelectedDepartment(selectedOption);
   };
 
   const handleSubmit = (event) => {
@@ -71,8 +76,11 @@ const HomePage = () => {
       employeeData[key] = value;
     });
 
-    employeeData.state = selectedState;
+    employeeData.state = typeof selectedState === 'object' ? selectedState.abbreviation : selectedState;
+    employeeData.department = selectedDepartment ? selectedDepartment.name : '';
     employeeData.id = shortid.generate();
+
+    console.log('employeeData', employeeData)
 
     if (Object.values(employeeData).some((field) => field === '')) {
       return;
@@ -108,8 +116,8 @@ const HomePage = () => {
                 Date of Birth
                 <DatePicker
                   fieldName="dob"
-                  value={selectedDate}
-                  onChange={(e) => setSelectedDate(e.target.value)}
+                  value={selectedDob}
+                  onChange={(e) => setSelectedDob(e.target.value)}
                   maxDate={getCurrentDate()}
                 />
               </label>
@@ -117,9 +125,9 @@ const HomePage = () => {
                 Start Date
                 <DatePicker
                   fieldName="startDate"
-                  value={selectedDate}
+                  value={selectedStartDate}
                   format="DD-MM-YYYY"
-                  onChange={(e) => setSelectedDate(e.target.value)}
+                  onChange={(e) => setSelectedStartDate(e.target.value)}
                 />
               </label>
               <fieldset>
@@ -134,11 +142,11 @@ const HomePage = () => {
                 </label>
                 <label>
                   State
-                  <SelectField
+                  <Selector
                     name="state"
-                    options={states.map((state) => state.name)}
+                    options={states}
                     value={selectedState}
-                    onChange={(e) => handleSelectChange('state', e.target.value)}
+                    onChange={handleStateChange}
                   />
                 </label>
                 <label>
@@ -148,11 +156,11 @@ const HomePage = () => {
               </fieldset>
               <label>
                 Department
-                <SelectField
+                <Selector
                   name="department"
-                  options={departments.map((department) => department.name)}
-                  value={departments.department}
-                  onChange={(e) => handleSelectChange('department', e.target.value)}
+                  options={departments}
+                  value={selectedDepartment}
+                  onChange={handleDepartmentChange}
                 />
               </label>
               <input type="submit" value="Save" />
